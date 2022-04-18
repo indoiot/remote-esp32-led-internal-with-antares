@@ -5,7 +5,7 @@
   #include <WiFi.h>
 
 
-#define ACCESSKEY "3930e5xxxxx:xxxxxxxx"
+#define ACCESSKEY "3930e5xxxx:xxxxxxxx"
 #define WIFISSID "Mi Phone"
 #define PASSWORD "xxxxxxx"
 
@@ -13,7 +13,7 @@
 #define deviceName "esp32"
 
   const char* ssid = "Mi Phone"; 
-  const char* password = "xxxxxxx"; 
+  const char* password = "xxxxxxxxxx"; 
 
  
 
@@ -25,7 +25,32 @@ WiFiServer server(80);
   String ledstatus = "off";
     
   const int ledid =2;
+
+
+  void callback(char topic[], byte payload[], unsigned int length) {
+  /*
+    Get the whole received data, including the topic,
+    and parse the data according to the Antares data format.
+  */
+  antares.get(topic, payload, length);
+
+  Serial.println("New Message!");
+  // Print topic and payload
+  Serial.println("Topic: " + antares.getTopic());
+  Serial.println("Payload: " + antares.getPayload());
+  // Print individual data
+  Serial.println("ledstatus: " + antares.getString("ledstatus"));
+  Serial.println("operator: " + antares.getString("operator"));
   
+  ledstatus = antares.getString("ledstatus");
+  if (ledstatus=="on"){
+  digitalWrite(ledid, HIGH);
+  }else{
+  digitalWrite(ledid,LOW);
+  }
+  
+ 
+}
   
   void setup() {
 
@@ -33,6 +58,7 @@ WiFiServer server(80);
   antares.setDebug(true);
   antares.wifiConnection(WIFISSID, PASSWORD);
   antares.setMqttServer();
+  antares.setCallback(callback);
   pinMode(ledid, OUTPUT);
   digitalWrite(ledid, LOW);
   Serial.print("Connecting to ");
