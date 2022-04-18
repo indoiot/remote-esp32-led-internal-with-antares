@@ -5,15 +5,15 @@
   #include <WiFi.h>
 
 
-#define ACCESSKEY "3930e5dd2bb9c40d:815aeff5efac4264"
+#define ACCESSKEY "3930e5xxxxx:xxxxxxxx"
 #define WIFISSID "Mi Phone"
-#define PASSWORD "antijimat"
+#define PASSWORD "xxxxxxx"
 
 #define projectName "LedInternalESP32"
 #define deviceName "esp32"
 
   const char* ssid = "Mi Phone"; 
-  const char* password = "antijimat"; 
+  const char* password = "xxxxxxx"; 
 
  
 
